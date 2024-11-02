@@ -1,0 +1,34 @@
+Try debugger UI
+nvim-dap-ui 
+https://github.com/rcarriga/nvim-dap-ui?tab=readme-ov-file
+
+Try jupyter notebook
+https://github.com/benlubas/molten-nvim
+
+Copilot: figure out better keybindings and completion by Tab
+
+Check treesitter and what does it do
+
+Check REST client
+http://www.lazyvim.org/extras/util/rest
+
+Check Neotest
+http://www.lazyvim.org/extras/test/core
+
+Maybe check black formatter
+http://www.lazyvim.org/extras/formatting/black
+
+Check if shellcheck and shfmt are installed before initializing bashls
+
+When exiting from debug or otherwise resizing -- try to keep neotree window size the same
+
+Make hover as toggle -- current toggles work through "folke/snacks"
+
+flash and nvim-surround -- find compatible keybindings
+
+Try using folke/flash more, check here
+https://github.com/folke/flash.nvim
+Alt+s -- custom remap instead of S
+
+Buffer switching -- Telescope buffers, <leader>fb
+
