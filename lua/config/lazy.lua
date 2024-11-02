@@ -17,7 +17,41 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   spec = {
     -- add LazyVim and import its plugins
-    { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+    -- { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+    -- Add my custom fork of LazyVim
+    -- { "git@github.com:vldslvv/LazyVim.git", import = "lazyvim.plugins", branch = "patch/custom" },
+    { "vldslvv/LazyVim", import = "lazyvim.plugins", branch = "patch/custom" },
+    -- Use local fork
+    -- { dir = "/mnt/shared_linux/home_shared/code/lazyvim", import = "lazyvim.plugins" },
+    -- { "/mnt/shared_linux/home_shared/code/lazyvim", import = "lazyvim.plugins" },
+
+    -- Add copilot and chat
+    { import = "lazyvim.plugins.extras.ai.copilot-chat" },
+    { import = "lazyvim.plugins.extras.ai.copilot" },
+
+    -- Language servers
+    { import = "lazyvim.plugins.extras.lang.rust" },
+    { import = "lazyvim.plugins.extras.lang.python" },
+    vim.g.haskell_enabled and { import = "lazyvim.plugins.extras.lang.haskell" } or {},
+    { import = "lazyvim.plugins.extras.lang.go" },
+    { import = "lazyvim.plugins.extras.lang.omnisharp" },
+    { import = "lazyvim.plugins.extras.lang.terraform" },
+    { import = "lazyvim.plugins.extras.lang.markdown" },
+    { import = "lazyvim.plugins.extras.lang.yaml" },
+    { import = "lazyvim.plugins.extras.lang.json" },
+    { import = "lazyvim.plugins.extras.lang.toml" },
+    { import = "lazyvim.plugins.extras.lang.docker" },
+
+    -- Utils
+    { import = "lazyvim.plugins.extras.util.dot" },
+
+    -- Neotest
+    { import = "lazyvim.plugins.extras.test.core" },
+
+    -- Debuggers?
+    { import = "lazyvim.plugins.extras.dap.core" },
+    { import = "lazyvim.plugins.extras.dap.nlua" },
+
     -- import/override with your plugins
     { import = "plugins" },
   },
