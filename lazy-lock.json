@@ -1,6 +1,6 @@
 {
   "CopilotChat.nvim": { "branch": "main", "commit": "ecea24a9a067c6f176b8e13eb11251c739caf055" },
-  "LazyVim": { "branch": "patch/custom", "commit": "e9809293153a7c6d70e023d891e09658002e752a" },
+  "LazyVim": { "branch": "patch/custom", "commit": "8671960e408f38ec660e968cc5f46432531066b1" },
   "SchemaStore.nvim": { "branch": "main", "commit": "47b1e85c020c9c359a2e6438405dd7b382b014af" },
   "blink-copilot": { "branch": "main", "commit": "7ad8209b2f880a2840c94cdcd80ab4dc511d4f39" },
   "blink.cmp": { "branch": "main", "commit": "4b18c32adef2898f95cdef6192cbd5796c1a332d" },
