@@ -30,26 +30,92 @@ return {
             name = "Launch current file (with libs)",
             program = "${file}",
             justMyCode = false, -- step into external code
-            subProcess = true,  -- follow multiprocessing/spawned children
+            subProcess = true, -- follow multiprocessing/spawned children
             cwd = "${workspaceFolder}",
           },
         }
       end,
     },
     keys = {
-      { "<leader>dO", function() require("dap").step_out() end, desc = "Step Out" },
-      { "<leader>do", function() require("dap").step_over() end, desc = "Step Over" },
+      {
+        "<leader>dO",
+        function()
+          require("dap").step_out()
+        end,
+        desc = "Step Out",
+      },
+      {
+        "<leader>do",
+        function()
+          require("dap").step_over()
+        end,
+        desc = "Step Over",
+      },
 
       -- VS Code-like function keybindings
-      { "<F5>", function() require("dap").continue() end, desc = "Debug: Start/Continue" },
-      { "<S-F5>", function() require("dap").terminate() end, desc = "Debug: Stop" },
-      { "<C-F5>", function() require("dap").run_last() end, desc = "Debug: Run Last" },
-      { "<F10>", function() require("dap").step_over() end, desc = "Debug: Step Over" },
-      { "<F11>", function() require("dap").step_into() end, desc = "Debug: Step Into" },
-      { "<S-F11>", function() require("dap").step_out() end, desc = "Debug: Step Out" },
-      { "<F9>", function() require("dap").toggle_breakpoint() end, desc = "Debug: Toggle Breakpoint" },
-      { "<S-F9>", function() require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: ")) end, desc = "Debug: Conditional Breakpoint" },
-      { "<F6>", function() require("dap").pause() end, desc = "Debug: Pause" },
+      {
+        "<F5>",
+        function()
+          require("dap").continue()
+        end,
+        desc = "Debug: Start/Continue",
+      },
+      {
+        "<S-F5>",
+        function()
+          require("dap").terminate()
+        end,
+        desc = "Debug: Stop",
+      },
+      {
+        "<C-F5>",
+        function()
+          require("dap").run_last()
+        end,
+        desc = "Debug: Run Last",
+      },
+      {
+        "<F10>",
+        function()
+          require("dap").step_over()
+        end,
+        desc = "Debug: Step Over",
+      },
+      {
+        "<F11>",
+        function()
+          require("dap").step_into()
+        end,
+        desc = "Debug: Step Into",
+      },
+      {
+        "<S-F11>",
+        function()
+          require("dap").step_out()
+        end,
+        desc = "Debug: Step Out",
+      },
+      {
+        "<F9>",
+        function()
+          require("dap").toggle_breakpoint()
+        end,
+        desc = "Debug: Toggle Breakpoint",
+      },
+      {
+        "<S-F9>",
+        function()
+          require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
+        end,
+        desc = "Debug: Conditional Breakpoint",
+      },
+      {
+        "<F6>",
+        function()
+          require("dap").pause()
+        end,
+        desc = "Debug: Pause",
+      },
 
       -- Toggle breakpoint and force an immediate UI refresh so the sign appears right away
       -- NOTE: Not 100% sure this helps
