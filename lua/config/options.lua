@@ -36,7 +36,7 @@ vim.g.haskell_enabled = false
 
 -- Custom setting -- control autocompletion popup from blink
 -- TODO: consider binding this to <leader>u. combination
-vim.g.blink_enable_auto_completion = false
+vim.g.blink_enable_auto_completion = true
 
 -- Copilot settings
 vim.g.copilot_enabled_on_start = false
