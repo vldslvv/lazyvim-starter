@@ -11,6 +11,22 @@ return {
         hide_gitignored = true,
       }, opts.filesystem.filtered_items or {})
 
+      -- Proportionally resize all other windows when Neo-tree opens/closes on a side.
+      local function equalize_if_side(args)
+        if args.position == "left" or args.position == "right" then
+          vim.cmd("wincmd =")
+        end
+      end
+      opts.event_handlers = opts.event_handlers or {}
+      table.insert(opts.event_handlers, {
+        event = "neo_tree_window_after_open",
+        handler = equalize_if_side,
+      })
+      table.insert(opts.event_handlers, {
+        event = "neo_tree_window_after_close",
+        handler = equalize_if_side,
+      })
+
       return opts
     end,
     keys = {
