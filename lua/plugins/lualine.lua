@@ -35,10 +35,11 @@ local function build_theme()
 
   return {
     normal = section(p.blue),
-    insert = section(p.green, 0.75, 0.45),
+    insert = section(p.green, 0.35, 0.45),
     visual = section(p.mauve, 0.75, 0.45),
     replace = section(p.red, 0.75, 0.45),
     command = section(p.peach, 0.75, 0.45),
+    terminal = section(p.teal, 0.75, 0.45),
     inactive = {
       a = { bg = p.surface0, fg = p.subtext0 },
       b = { bg = p.mantle, fg = p.subtext0 },
