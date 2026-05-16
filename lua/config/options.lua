@@ -5,6 +5,9 @@
 -- Enable line wrap
 vim.opt.wrap = true
 
+-- Keep absolute line numbers on by default; <leader>uL still toggles relative numbers.
+vim.opt.relativenumber = false
+
 -- Make title include current directory
 vim.opt.title = true
 vim.opt.titlestring = "%{"
