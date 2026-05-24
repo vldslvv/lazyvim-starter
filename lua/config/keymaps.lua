@@ -11,4 +11,5 @@ vim.keymap.set("i", "<a-cr>", "<cr><C-u>")
 
 -- Terminal in current window (regular buffer)
 vim.keymap.set("n", "<leader>wt", "<cmd>terminal<cr>", { desc = "Terminal" })
-vim.keymap.set("n", "<leader>wa", "<cmd>terminal claude<cr>", { desc = "Terminal with claude" })
+vim.keymap.set("n", "<leader>wa", "<cmd>terminal codex<cr>", { desc = "Terminal with claude" })
+vim.keymap.set("n", "<leader>wz", "<cmd>terminal opencode", { desc = "Terminal with opencode" })
