@@ -2,6 +2,9 @@ return {
   {
     "NeogitOrg/neogit",
     lazy = true,
+    init = function()
+      require("config.neogit_session_restore").setup()
+    end,
     dependencies = {
       "nvim-lua/plenary.nvim", -- required
       "sindrets/diffview.nvim", -- optional - Diff integration
