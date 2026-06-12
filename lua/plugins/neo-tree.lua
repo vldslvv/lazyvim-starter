@@ -10,6 +10,9 @@ return {
         hide_dotfiles = false,
         hide_gitignored = true,
       }, opts.filesystem.filtered_items or {})
+      opts.clipboard = vim.tbl_deep_extend("force", {
+        sync = "universal",
+      }, opts.clipboard or {})
 
       -- Proportionally resize all other windows when Neo-tree opens/closes on a side.
       local function equalize_if_side(args)
