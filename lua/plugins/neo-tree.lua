@@ -13,6 +13,9 @@ return {
       opts.clipboard = vim.tbl_deep_extend("force", {
         sync = "universal",
       }, opts.clipboard or {})
+      opts.window = vim.tbl_deep_extend("force", {
+        width = vim.g.neotree_width or 30,
+      }, opts.window or {})
 
       -- Proportionally resize all other windows when Neo-tree opens/closes on a side.
       local function equalize_if_side(args)

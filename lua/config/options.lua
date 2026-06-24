@@ -28,6 +28,9 @@ vim.g.lazyvim_picker = "telescope"
 
 vim.g.minipairs_disable = true
 
+-- Neo-tree settings
+vim.g.neotree_width = 30
+
 -- Debugger settings
 vim.g.interpreter_path = vim.fn.system("which python"):gsub("%s+$", "")
 vim.notify("Using interpreter: " .. vim.g.interpreter_path)
