@@ -22,9 +22,9 @@ if not vim.g.autohover_disabled then
 end
 require("config.autocmds.neogit").setup()
 
--- Use 4 tabs for certain file types
+-- Use 4 spaces for certain file types
 vim.api.nvim_create_autocmd({ "FileType" }, {
-  pattern = { "cpp", "c", "h", "hpp", "py" },
+  pattern = { "cpp", "c", "h", "hpp", "python" },
   callback = function()
     vim.bo.shiftwidth = 4
     vim.bo.tabstop = 4
