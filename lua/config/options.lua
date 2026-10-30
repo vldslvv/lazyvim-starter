@@ -24,6 +24,11 @@ vim.g.autohover_disabled = true
 vim.g.lazyvim_python_lsp = "pyright"
 vim.g.lazyvim_python_ruff = "ruff"
 
+-- Use one indentation level after an opening parenthesis in Python.
+vim.g.python_indent = {
+  open_paren = "shiftwidth()",
+}
+
 vim.g.lazyvim_picker = "telescope"
 
 vim.g.minipairs_disable = true
