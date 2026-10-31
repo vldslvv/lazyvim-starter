@@ -6,6 +6,8 @@ return {
     opts = function(_, opts)
       opts = opts or {}
       opts.filesystem = opts.filesystem or {}
+      -- Refresh when files or directories change outside Neovim.
+      opts.filesystem.use_libuv_file_watcher = true
       opts.filesystem.filtered_items = vim.tbl_deep_extend("force", {
         hide_dotfiles = false,
         hide_gitignored = true,
