@@ -25,10 +25,6 @@ require("lazy").setup({
     -- { dir = "/mnt/shared_linux/home_shared/code/lazyvim", import = "lazyvim.plugins" },
     -- { "/mnt/shared_linux/home_shared/code/lazyvim", import = "lazyvim.plugins" },
 
-    -- Add copilot and chat
-    { import = "lazyvim.plugins.extras.ai.copilot" },
-    { import = "lazyvim.plugins.extras.ai.copilot-chat" },
-
     -- Language servers
     { import = "lazyvim.plugins.extras.lang.clangd" },
     { import = "lazyvim.plugins.extras.lang.cmake" },
