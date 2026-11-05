@@ -116,6 +116,18 @@ return {
     end,
     keys = {
       {
+        "<leader>fA",
+        LazyVim.pick("find_files", { hidden = true, no_ignore = true }),
+        desc = "Find Files (Hidden and Ignored)",
+      },
+      {
+        "<leader>sA",
+        LazyVim.pick("live_grep", {
+          additional_args = { "--hidden", "--no-ignore", "--glob", "!.git" },
+        }),
+        desc = "Grep (Hidden and Ignored)",
+      },
+      {
         "<leader>bf",
         "<cmd>Telescope buffers sort_mru=true sort_lastused=true ignore_current_buffer=true<cr>",
         desc = "Find Buffers",
