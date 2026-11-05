@@ -5,6 +5,18 @@ return {
     opts = function(_, opts)
       opts = opts or {}
 
+      -- Disable completion itself so hidden suggestions cannot be accepted in prose files.
+      local enabled = opts.enabled
+      opts.enabled = function()
+        if vim.bo.filetype == "text" or vim.bo.filetype == "markdown" then
+          return false
+        end
+        if enabled then
+          return enabled()
+        end
+        return true
+      end
+
       local prose_filetypes = {
         gitcommit = true,
         markdown = true,
@@ -54,7 +66,7 @@ return {
         end
       end
 
-      -- Keymaps: keep hide mapping; ensure manual trigger available always
+      -- Keymaps: keep hide mapping for buffers where completion is enabled
       opts.keymap = vim.tbl_extend('force', {
         ['<C-c>'] = { 'hide', 'fallback' },
       }, opts.keymap or {})
