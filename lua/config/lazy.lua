@@ -35,9 +35,25 @@ require("lazy").setup({
     { import = "lazyvim.plugins.extras.lang.json" },
     { import = "lazyvim.plugins.extras.lang.toml" },
     { import = "lazyvim.plugins.extras.lang.docker" },
-    vim.g.rust_enabled and { import = "lazyvim.plugins.extras.lang.rust" } or {},
-    vim.g.haskell_enabled and { import = "lazyvim.plugins.extras.lang.haskell" } or {},
-    vim.g.golang_enabled and { import = "lazyvim.plugins.extras.lang.go" } or {},
+    -- Check language flags after LazyVim has loaded config/options.lua.
+    {
+      import = "lazyvim.plugins.extras.lang.rust",
+      enabled = function()
+        return vim.g.rust_enabled
+      end,
+    },
+    {
+      import = "lazyvim.plugins.extras.lang.haskell",
+      enabled = function()
+        return vim.g.haskell_enabled
+      end,
+    },
+    {
+      import = "lazyvim.plugins.extras.lang.go",
+      enabled = function()
+        return vim.g.golang_enabled
+      end,
+    },
 
     -- Utils
     { import = "lazyvim.plugins.extras.util.dot" },

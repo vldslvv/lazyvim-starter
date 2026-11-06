@@ -41,7 +41,7 @@ vim.g.interpreter_path = vim.fn.system("which python"):gsub("%s+$", "")
 vim.notify("Using interpreter: " .. vim.g.interpreter_path)
 
 -- Language overrides
-vim.g.rust_enabled = false
+vim.g.rust_enabled = true
 vim.g.golang_enabled = false
 vim.g.haskell_enabled = false
 
