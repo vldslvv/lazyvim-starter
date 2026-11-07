@@ -66,10 +66,17 @@ return {
         end
       end
 
-      -- Keymaps: keep hide mapping for buffers where completion is enabled
-      opts.keymap = vim.tbl_extend('force', {
+      -- Enter always inserts a newline, even when only ghost text is visible.
+      -- Keep the inherited Ctrl-Y mapping for explicitly accepting completion.
+      opts.keymap = vim.tbl_extend('force', opts.keymap or {}, {
+        ['<CR>'] = {
+          function(cmp)
+            cmp.cancel()
+          end,
+          'fallback',
+        },
         ['<C-c>'] = { 'hide', 'fallback' },
-      }, opts.keymap or {})
+      })
 
       return opts
     end,
