@@ -48,9 +48,12 @@ local function build_theme()
   }
 end
 
-local function format_breadcrumbs(text, component)
+local function format_section_highlights(text, component)
   local reset = component:get_default_hl()
   local section = reset:match("%%#(.-)#")
+  if not section then
+    return text
+  end
   local bg = vim.api.nvim_get_hl(0, { name = section, link = false }).bg
 
   -- Trouble caches normal-mode backgrounds and emits %* between symbols.
@@ -79,10 +82,18 @@ return {
         opts.options = opts.options or {}
         opts.options.theme = theme
       end
-      if vim.g.trouble_lualine and LazyVim.has("trouble.nvim") then
-        -- LazyVim appends the Trouble symbols component last in section c.
-        local components = opts.sections.lualine_c
-        components[#components].fmt = format_breadcrumbs
+      -- Normalize embedded highlights for every section-c component, including
+      -- Trouble, without depending on its position in LazyVim's component list.
+      for _, component in ipairs((opts.sections or {}).lualine_c or {}) do
+        if type(component) == "table" then
+          local fmt = component.fmt
+          component.fmt = function(text, context)
+            if fmt then
+              text = fmt(text, context)
+            end
+            return format_section_highlights(text, context)
+          end
+        end
       end
     end,
   },

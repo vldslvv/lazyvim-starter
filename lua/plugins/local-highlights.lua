@@ -1,11 +1,11 @@
 return {
   {
     "tzachar/local-highlight.nvim",
+    ft = { "markdown", "text", "gitcommit" },
     config = function()
       require("local-highlight").setup({
-        -- file_types = { "python", "cpp" }, -- If this is given only attach to this
-        -- OR attach to every filetype except:
-        -- disable_file_types = { "tex" },
+        -- Code references are highlighted by Snacks/LSP.
+        file_types = { "markdown", "text", "gitcommit" },
         hlgroup = "Search",
         cw_hlgroup = nil,
         -- Whether to display highlights in INSERT mode or not

@@ -1,4 +1,4 @@
-M = require("helpers")
+local M = require("helpers")
 
 return {
   {
@@ -8,28 +8,27 @@ return {
       opts.filesystem = opts.filesystem or {}
       -- Refresh when files or directories change outside Neovim.
       opts.filesystem.use_libuv_file_watcher = true
-      opts.filesystem.filtered_items = vim.tbl_deep_extend("force", {
+      opts.filesystem.filtered_items = vim.tbl_deep_extend("force", opts.filesystem.filtered_items or {}, {
         hide_dotfiles = false,
         hide_gitignored = true,
-      }, opts.filesystem.filtered_items or {})
-      opts.clipboard = vim.tbl_deep_extend("force", {
+      })
+      opts.clipboard = vim.tbl_deep_extend("force", opts.clipboard or {}, {
         sync = "universal",
-      }, opts.clipboard or {})
-      opts.window = vim.tbl_deep_extend("force", {
+      })
+      opts.window = vim.tbl_deep_extend("force", opts.window or {}, {
         width = vim.g.neotree_width or 30,
-      }, opts.window or {})
+      })
 
       -- Inspect only loaded layout windows; tree toggles must not load DAP UI.
       local function dapui_visible(tab)
-        local windows = package.loaded["dapui.windows"]
-        if not windows then
+        if not package.loaded["dapui"] then
           return false
         end
-        for _, layout in ipairs(windows.layouts) do
-          for _, win in ipairs(layout.opened_wins) do
-            if vim.api.nvim_win_is_valid(win) and vim.api.nvim_win_get_tabpage(win) == tab then
-              return true
-            end
+        for _, win in ipairs(vim.api.nvim_tabpage_list_wins(tab)) do
+          local ft = vim.bo[vim.api.nvim_win_get_buf(win)].filetype
+          local floating = vim.api.nvim_win_get_config(win).relative ~= ""
+          if not floating and (ft:match("^dapui_") or ft == "dap-repl") then
+            return true
           end
         end
         return false

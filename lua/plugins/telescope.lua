@@ -6,14 +6,7 @@ return {
       opts.defaults = opts.defaults or {}
       opts.pickers = opts.pickers or {}
 
-      opts.defaults = vim.tbl_deep_extend("force", {
-        initial_mode = "normal",
-      }, opts.defaults)
-      opts.defaults.mappings = opts.defaults.mappings or {}
-      opts.defaults.mappings.i = opts.defaults.mappings.i or {}
-      opts.defaults.mappings.n = opts.defaults.mappings.n or {}
-
-      local existing_attach_mappings = opts.defaults.attach_mappings
+      opts.defaults.initial_mode = "normal"
 
       -- Goal: make Telescope searches launched from Codex/opencode panes replace that pane.
       -- This only applies to terminals marked by our workspace keymaps; every other window
@@ -80,6 +73,9 @@ return {
         -- Take the explicit path only for marked workspace terminals; fallback stays stock Telescope.
         if is_workspace_terminal_win(original_win) then
           local entry = action_state.get_selected_entry()
+          if not entry then
+            return
+          end
           actions.close(prompt_bufnr)
           return edit_entry_in_window(entry, original_win)
         end
@@ -87,30 +83,27 @@ return {
         return action_set.edit(prompt_bufnr, "edit")
       end
 
-      opts.defaults.attach_mappings = function(prompt_bufnr, map)
-        if existing_attach_mappings and existing_attach_mappings(prompt_bufnr, map) == false then
-          return false
+      -- Only file/buffer pickers use our terminal replacement action. Other
+      -- pickers retain their own Enter behavior (commands, registers, etc.).
+      for _, name in ipairs({ "find_files", "git_files", "oldfiles", "buffers", "live_grep", "grep_string" }) do
+        local picker = opts.pickers[name] or {}
+        opts.pickers[name] = picker
+        local attach = picker.attach_mappings
+        picker.attach_mappings = function(prompt_bufnr, map)
+          if attach and attach(prompt_bufnr, map) == false then
+            return false
+          end
+          require("telescope.actions").select_default:replace_if(function()
+            local current = require("telescope.actions.state").get_current_picker(prompt_bufnr)
+            return is_workspace_terminal_win(current.original_win_id)
+          end, select_workspace_aware)
+          return true
         end
-
-        local actions = require("telescope.actions")
-        actions.select_default:replace(select_workspace_aware)
-
-        return true
       end
 
-      opts.defaults.mappings.i["<CR>"] = select_workspace_aware
-      opts.defaults.mappings.n["<CR>"] = select_workspace_aware
-
-      opts.pickers = vim.tbl_deep_extend("force", {
-        find_files = {
-          hidden = true,
-        },
-        live_grep = {
-          additional_args = function()
-            return { "--hidden" }
-          end,
-        },
-      }, opts.pickers)
+      opts.pickers.find_files.hidden = true
+      -- Telescope supports hidden directly; preserve any inherited extra args.
+      opts.pickers.live_grep.hidden = true
 
       return opts
     end,
