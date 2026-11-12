@@ -36,6 +36,7 @@ return {
           local bg = props.focused and active_bg or inactive_bg
 
           return {
+            guibg = bg,
             { " " },
             { icon or "", guifg = icon_color, guibg = bg },
             { " " },
