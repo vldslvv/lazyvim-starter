@@ -10,7 +10,7 @@ vim.keymap.set("t", "jk", "<C-\\><C-n>", { noremap = true, silent = true })
 vim.keymap.set("i", "<a-cr>", "<cr><C-u>")
 
 -- Goal: treat only terminals opened by these keymaps as workspace panes.
--- The marker lets integrations replace Codex/opencode terminal windows with files,
+-- The marker lets integrations replace assistant terminal windows with files,
 -- while ordinary :terminal buffers keep the usual protected terminal behavior.
 local function open_workspace_terminal(cmd, label)
   local cwd = vim.fn.getcwd()
@@ -40,12 +40,18 @@ end
 vim.keymap.set("n", "<leader>wt", function()
   open_workspace_terminal()
 end, { desc = "Terminal" })
+
+local use_cursor = vim.g.ai_terminal == "cursor"
+local assistant_cmd = use_cursor and "agent" or "codex --no-alt-screen"
+local assistant_label = use_cursor and "Cursor" or "Codex"
 vim.keymap.set("n", "<leader>wa", function()
-  open_workspace_terminal("codex --no-alt-screen", "Codex")
-end, { desc = "Terminal with codex" })
+  open_workspace_terminal(assistant_cmd, assistant_label)
+end, { desc = "Terminal with " .. assistant_label })
+
 vim.keymap.set("n", "<leader>wc", function()
   open_workspace_terminal("claude", "Claude")
 end, { desc = "Terminal with claude" })
+
 vim.keymap.set("n", "<leader>wz", function()
   open_workspace_terminal("opencode", "OpenCode")
 end, { desc = "Terminal with opencode" })

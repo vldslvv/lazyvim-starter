@@ -44,6 +44,9 @@ vim.g.lazyvim_python_ruff = "ruff"
 vim.g.lazyvim_picker = "telescope"
 vim.g.neotree_width = 30
 
+-- Assistant opened by <leader>wa: "codex" or "cursor" (Cursor CLI).
+vim.g.ai_terminal = "codex"
+
 -- DAP UI dimensions (columns / lines)
 vim.g.dapui_sidebar_width = 40
 vim.g.dapui_bottom_height = 10

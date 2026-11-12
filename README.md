@@ -16,7 +16,7 @@ Ruff, HLint, debugpy, and codelldb. Haskell uses GHCup's HLS and GHC from `PATH`
 instead of Mason's HLS. Python projects should have a virtual environment;
 `<leader>cv` selects one. The debugger runs Mason's debugpy adapter with the
 selected project interpreter. The optional terminal shortcuts require `codex`,
-`claude`, or `opencode` on `PATH`.
+`agent` (Cursor CLI), `claude`, or `opencode` on `PATH`, depending on the shortcut.
 
 ## Configuration
 
@@ -27,6 +27,8 @@ selected project interpreter. The optional terminal shortcuts require `codex`,
 - `lua/config/options.lua`: preferences, language flags, and layout dimensions.
   Rust and Haskell are enabled; Go and GitLab CI support are disabled.
   Set `vim.g.gitlab_ci_enabled = true` and restart Neovim to enable GitLab CI navigation.
+  Set `vim.g.ai_terminal = "codex"` (default) or `"cursor"` to choose the assistant
+  opened by `<leader>wa`; restart Neovim after changing it.
 - `lua/plugins/`: overrides and integrations for individual plugins.
 - Language extras are imported in `lazy.lua`; the empty extras list in
   `lazyvim.json` does not mean language support is disabled.
@@ -59,7 +61,7 @@ code references.
 | `<leader>wt` | Shell in the current window |
 | `<leader>we` | Find existing terminals (including hidden terminals) |
 | `<leader>wr` | Rename the current terminal |
-| `<leader>wa` / `wc` / `wz` | Codex / Claude / opencode terminal |
+| `<leader>wa` / `wc` / `wz` | Selected assistant (Codex or Cursor) / Claude / opencode terminal |
 | `<leader>er` / `ec` | Toggle Neo-tree at project root / current directory |
 | `<leader>eg` / `eb` / `ee` | Git tree / buffer tree / focus tree |
 | `<leader>fA` / `sA` | Find / grep hidden and ignored files |
