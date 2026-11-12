@@ -15,14 +15,74 @@ return {
           return
         end
 
-        -- point to your project interpreter (must have debugpy installed)
-        vim.notify("Using interpreter: " .. vim.g.interpreter_path, vim.log.levels.INFO)
-        require("dap-python").setup(vim.g.interpreter_path)
-        -- alternatively, Mason can be used, need to figure out how and why
-        -- require("dap-python").setup(LazyVim.get_pkg_path("debugpy", "/home/vv/.pyenv/v/3.11.9/envs/nvim-dap-test/bin/python"))
+        -- Mason runs the adapter; the project interpreter does not need debugpy.
+        require("dap-python").setup("debugpy-adapter")
+
+        local dap = require("dap")
+        local function validate_python(path)
+          if vim.fn.executable(path) == 1 then
+            return path
+          end
+          vim.notify(
+            "Cannot launch Python debugger: interpreter is missing or not executable: "
+              .. path
+              .. "\nSelect another environment with :VenvSelect (<leader>cv), or repair/activate your environment and restart Neovim.",
+            vim.log.levels.ERROR
+          )
+          return dap.ABORT
+        end
+
+        local function resolve_python()
+          local selector = package.loaded["venv-selector"]
+          local selected = selector and selector.python()
+          if selected and selected ~= "" then
+            return validate_python(selected)
+          end
+
+          for _, variable in ipairs({ "VIRTUAL_ENV", "CONDA_PREFIX" }) do
+            local env = vim.env[variable]
+            if env and env ~= "" then
+              return validate_python(env .. "/bin/python")
+            end
+          end
+
+          for _, root in ipairs({ LazyVim.root(), vim.fn.getcwd() }) do
+            for _, folder in ipairs({ ".venv", "venv", "env", ".env" }) do
+              local env = root .. "/" .. folder
+              if vim.fn.isdirectory(env) == 1 then
+                return validate_python(env .. "/bin/python")
+              end
+            end
+          end
+
+          for _, command in ipairs({ "python", "python3" }) do
+            local path = vim.fn.exepath(command)
+            if path ~= "" then
+              return validate_python(path)
+            end
+          end
+          vim.notify(
+            "Cannot launch Python debugger: no Python interpreter found. Install Python and create a project environment "
+              .. "with `python3 -m venv .venv`, or select an existing environment with :VenvSelect (<leader>cv).",
+            vim.log.levels.ERROR
+          )
+          return dap.ABORT
+        end
+
+        dap.listeners.on_config["project_python"] = function(config)
+          if
+            (config.type == "python" or config.type == "debugpy")
+            and config.request == "launch"
+            and config.python == nil
+            and config.pythonPath == nil
+          then
+            -- Keep the saved configuration unresolved for subsequent launches/run_last.
+            return vim.tbl_extend("force", config, { python = resolve_python() })
+          end
+          return config
+        end
 
         -- allow stepping into stdlib/site-packages and follow child processes
-        local dap = require("dap")
         dap.configurations.python = {
           {
             type = "python",
