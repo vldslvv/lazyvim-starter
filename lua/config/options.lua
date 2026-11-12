@@ -35,6 +35,8 @@ vim.g.blink_enable_auto_completion = true
 vim.g.rust_enabled = true
 vim.g.golang_enabled = false
 vim.g.haskell_enabled = true
+vim.g.terraform_enabled = false
+vim.g.typescript_enabled = false
 vim.g.gitlab_ci_enabled = false
 
 vim.g.lazyvim_python_lsp = "pyright"

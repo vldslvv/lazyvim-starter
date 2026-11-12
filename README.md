@@ -25,7 +25,9 @@ selected project interpreter. The optional terminal shortcuts require `codex`,
   Keep this source choice explicit when syncing upstream; the helper script is
   `scripts/sync_fork_and_rebase.sh`.
 - `lua/config/options.lua`: preferences, language flags, and layout dimensions.
-  Rust and Haskell are enabled; Go and GitLab CI support are disabled.
+  Rust and Haskell are enabled; Go, Terraform, TypeScript, and GitLab CI support are disabled.
+  Set `vim.g.terraform_enabled = true` or `vim.g.typescript_enabled = true` and
+  restart Neovim to enable the corresponding language support.
   Set `vim.g.gitlab_ci_enabled = true` and restart Neovim to enable GitLab CI navigation.
   Set `vim.g.ai_terminal = "codex"` (default) or `"cursor"` to choose the assistant
   opened by `<leader>wa`; restart Neovim after changing it.
@@ -59,8 +61,13 @@ still provided by `render-markdown.nvim`.
 Neogit's diff integration uses the maintained `diffview-plus.nvim` fork with
 the existing `:DiffviewOpen` and `:DiffviewFileHistory` commands. The old Terraform
 state picker (`:Telescope terraform state_list`) is disabled; use the Terraform
-CLI for state operations. Terraform language support and its documentation picker
-remain enabled.
+CLI for state operations. When `vim.g.terraform_enabled` is true, the Terraform
+extra enables `terraform-ls` for completion, hover, definitions (`gd`), and
+references (`gr`), plus the documentation picker. TFLint and `terraform validate`
+provide diagnostics through nvim-lint. Formatting stays manual (`<leader>cf`).
+The Terraform CLI must be available on `PATH` for validation and formatting;
+Mason installs `terraform-ls` and TFLint. Configure provider-specific TFLint
+plugins in each project's `.tflint.hcl` and run `tflint --init` in that project.
 
 ## Custom keys
 
