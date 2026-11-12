@@ -36,6 +36,10 @@ vim.g.minipairs_disable = true
 -- Neo-tree settings
 vim.g.neotree_width = 30
 
+-- DAP UI dimensions (columns / lines)
+vim.g.dapui_sidebar_width = 40
+vim.g.dapui_bottom_height = 10
+
 -- Language overrides
 vim.g.rust_enabled = true
 vim.g.golang_enabled = false

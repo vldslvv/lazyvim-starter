@@ -19,11 +19,42 @@ return {
         width = vim.g.neotree_width or 30,
       }, opts.window or {})
 
-      -- Proportionally resize all other windows when Neo-tree opens/closes on a side.
-      local function equalize_if_side(args)
-        if args.position == "left" or args.position == "right" then
-          vim.cmd("wincmd =")
+      -- Inspect only loaded layout windows; tree toggles must not load DAP UI.
+      local function dapui_visible(tab)
+        local windows = package.loaded["dapui.windows"]
+        if not windows then
+          return false
         end
+        for _, layout in ipairs(windows.layouts) do
+          for _, win in ipairs(layout.opened_wins) do
+            if vim.api.nvim_win_is_valid(win) and vim.api.nvim_win_get_tabpage(win) == tab then
+              return true
+            end
+          end
+        end
+        return false
+      end
+
+      -- Equalize code panes, or restore DAP dimensions after the tree settles.
+      local function equalize_if_side(args)
+        if args.position ~= "left" and args.position ~= "right" then
+          return
+        end
+        local tab = vim.api.nvim_get_current_tabpage()
+        if not dapui_visible(tab) then
+          vim.cmd("wincmd =")
+          return
+        end
+        vim.schedule(function()
+          if vim.api.nvim_get_current_tabpage() ~= tab or not dapui_visible(tab) then
+            return
+          end
+          local win = vim.api.nvim_get_current_win()
+          package.loaded["dapui"].open({ reset = true })
+          if vim.api.nvim_win_is_valid(win) then
+            vim.api.nvim_set_current_win(win)
+          end
+        end)
       end
       opts.event_handlers = opts.event_handlers or {}
       table.insert(opts.event_handlers, {
