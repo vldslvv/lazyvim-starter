@@ -1,7 +1,7 @@
 # Neovim configuration
 
 Personal LazyVim configuration using Catppuccin Frappe, Telescope, Neo-tree,
-Blink completion, Neogit/Diffview, Neotest, and nvim-dap.
+Blink completion, Neogit/Diffview+, Neotest, and nvim-dap.
 
 ## Setup and dependencies
 
@@ -50,6 +50,18 @@ set it to false before loading for manual completion. Textual word highlighting
 is limited to Markdown, plain text, and commit messages. Snacks/LSP highlights
 code references.
 
+Snacks handles text input prompts, and Telescope handles selection dialogs via
+`telescope-ui-select.nvim`. Browser Markdown previews use `live-preview.nvim`;
+`<leader>cp` toggles the server, while `:LivePreview start`, `:LivePreview close`,
+and `:LivePreview pick` provide direct control. In-buffer Markdown rendering is
+still provided by `render-markdown.nvim`.
+
+Neogit's diff integration uses the maintained `diffview-plus.nvim` fork with
+the existing `:DiffviewOpen` and `:DiffviewFileHistory` commands. The old Terraform
+state picker (`:Telescope terraform state_list`) is disabled; use the Terraform
+CLI for state operations. Terraform language support and its documentation picker
+remain enabled.
+
 ## Custom keys
 
 `<leader>` is Space. Standard LazyVim bindings remain available unless overridden.
@@ -71,6 +83,7 @@ code references.
 | Visual `S` | Surround selection |
 | `gpd` / `gpt` / `gpi` / `gP` | Preview definition / type / implementation / close previews |
 | `<leader>cv` | Select Python environment |
+| `<leader>cp` | Toggle browser Markdown preview |
 | `F5` / `Shift-F5` / `Ctrl-F5` | Debug continue / stop / run last |
 | `F10` / `F11` / `Shift-F11` | Step over / into / out |
 | `F9` / `Shift-F9` / `F6` | Breakpoint / conditional breakpoint / pause |

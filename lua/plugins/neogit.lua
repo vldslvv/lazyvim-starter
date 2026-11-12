@@ -7,7 +7,12 @@ return {
     end,
     dependencies = {
       "nvim-lua/plenary.nvim", -- required
-      "sindrets/diffview.nvim", -- optional - Diff integration
+      {
+        "dlyongemallo/diffview-plus.nvim",
+        version = "*",
+        main = "diffview",
+        opts = {},
+      },
 
       -- Only one of these is needed.
       "nvim-telescope/telescope.nvim", -- optional
@@ -18,6 +23,7 @@ return {
     config = function()
       require("neogit").setup({
         disable_signs = false,
+        integrations = { diffview = true },
       })
     end,
     cmd = "Neogit",
