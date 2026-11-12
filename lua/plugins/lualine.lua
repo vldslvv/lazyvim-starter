@@ -48,6 +48,27 @@ local function build_theme()
   }
 end
 
+local function format_breadcrumbs(text, component)
+  local reset = component:get_default_hl()
+  local section = reset:match("%%#(.-)#")
+  local bg = vim.api.nvim_get_hl(0, { name = section, link = false }).bg
+
+  -- Trouble caches normal-mode backgrounds and emits %* between symbols.
+  -- Keep its foregrounds, but use the current section background throughout.
+  text = text:gsub("%%#(.-)#", function(source)
+    local hl = vim.api.nvim_get_hl(0, { name = source, link = false })
+    hl.bg = bg
+    local target = "Breadcrumb_" .. section .. "_" .. source
+    if not vim.deep_equal(vim.api.nvim_get_hl(0, { name = target, link = false }), hl) then
+      vim.api.nvim_set_hl(0, target, hl)
+    end
+    return "%#" .. target .. "#"
+  end)
+  return (text:gsub("%%[%d]*%*", function()
+    return reset
+  end))
+end
+
 return {
   {
     "nvim-lualine/lualine.nvim",
@@ -57,6 +78,11 @@ return {
       if theme then
         opts.options = opts.options or {}
         opts.options.theme = theme
+      end
+      if vim.g.trouble_lualine and LazyVim.has("trouble.nvim") then
+        -- LazyVim appends the Trouble symbols component last in section c.
+        local components = opts.sections.lualine_c
+        components[#components].fmt = format_breadcrumbs
       end
     end,
   },
