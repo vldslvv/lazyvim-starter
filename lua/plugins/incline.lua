@@ -18,12 +18,12 @@ return {
           margin = { horizontal = 0, vertical = 0 },
         },
         hide = {
-          cursorline = false,
+          cursorline = "smart",
           focused_win = false,
           only_win = "count_ignored",
         },
         render = function(props)
-          local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
+          local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":.")
           if filename == "" then
             filename = "[No Name]"
           end
