@@ -152,18 +152,27 @@ local function restore_status_buffers(entries)
     return a.tab < b.tab
   end)
 
-  for _, entry in ipairs(valid_entries) do
-    local can_restore = vim.fn.isdirectory(entry.cwd) == 1
-      and not visible_neogit_for_cwd(entry.cwd)
+  local selected_win = vim.api.nvim_get_current_win()
+  local restored, err = pcall(function()
+    for _, entry in ipairs(valid_entries) do
+      local can_restore = vim.fn.isdirectory(entry.cwd) == 1 and not visible_neogit_for_cwd(entry.cwd)
 
-    if can_restore then
-      local focused = focus_saved_window(entry)
-      neogit.open({
-        kind = focused and "replace" or "tab",
-        cwd = entry.cwd,
-        no_expand = true,
-      })
+      if can_restore then
+        local focused = focus_saved_window(entry)
+        neogit.open({
+          kind = focused and "replace" or "tab",
+          cwd = entry.cwd,
+          no_expand = true,
+        })
+      end
     end
+  end)
+
+  if vim.api.nvim_win_is_valid(selected_win) then
+    vim.api.nvim_set_current_win(selected_win)
+  end
+  if not restored then
+    error(err, 0)
   end
 end
 
@@ -190,7 +199,8 @@ function M.setup()
     group = group,
     pattern = "PersistenceLoadPost",
     callback = function()
-      local session = session_path()
+      -- Persistence may load a branch fallback or the last session instead of current().
+      local session = normalize(vim.v.this_session)
       if not session then
         return
       end

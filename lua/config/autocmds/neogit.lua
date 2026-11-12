@@ -28,11 +28,15 @@ function M.setup()
     end,
   })
 
-  -- Neogit keymaps
-  -- Define a command to search for 'unstaged changes'
-  vim.api.nvim_command('command! SearchUnstagedChanges execute ":g/^Unstaged changes" | normal! <Esc>')
-  vim.api.nvim_command('command! SearchStagedChanges execute ":g/^Staged changes" | normal! <Esc>')
-  vim.api.nvim_command('command! SearchUntrackedFiles execute ":g/^Untracked files" | normal! <Esc>')
+  for name, heading in pairs({
+    SearchUnstagedChanges = "Unstaged changes",
+    SearchStagedChanges = "Staged changes",
+    SearchUntrackedFiles = "Untracked files",
+  }) do
+    vim.api.nvim_create_user_command(name, function()
+      vim.fn.search("^" .. heading, "cw")
+    end, { force = true })
+  end
 
   -- Create an autocmd group to avoid duplicate autocmds
   vim.api.nvim_command("augroup NeogitKeymaps")
