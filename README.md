@@ -25,7 +25,8 @@ selected project interpreter. The optional terminal shortcuts require `codex`,
   Keep this source choice explicit when syncing upstream; the helper script is
   `scripts/sync_fork_and_rebase.sh`.
 - `lua/config/options.lua`: preferences, language flags, and layout dimensions.
-  Rust and Haskell are enabled; Go is disabled.
+  Rust and Haskell are enabled; Go and GitLab CI support are disabled.
+  Set `vim.g.gitlab_ci_enabled = true` and restart Neovim to enable GitLab CI navigation.
 - `lua/plugins/`: overrides and integrations for individual plugins.
 - Language extras are imported in `lazy.lua`; the empty extras list in
   `lazyvim.json` does not mean language support is disabled.
