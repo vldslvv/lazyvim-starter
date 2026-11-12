@@ -12,8 +12,8 @@ return {
   {
     "mfussenegger/nvim-lint",
     opts = function(_, opts)
-      -- HLS already provides HLint diagnostics.
-      opts.linters_by_ft.haskell = nil
+      -- The installed HLS build does not include the HLint plugin.
+      opts.linters_by_ft.haskell = { "hlint" }
     end,
   },
   {
