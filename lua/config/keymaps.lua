@@ -12,7 +12,9 @@ vim.keymap.set("i", "<a-cr>", "<cr><C-u>")
 -- Goal: treat only terminals opened by these keymaps as workspace panes.
 -- The marker lets integrations replace Codex/opencode terminal windows with files,
 -- while ordinary :terminal buffers keep the usual protected terminal behavior.
-local function open_workspace_terminal(cmd)
+local function open_workspace_terminal(cmd, label)
+  local cwd = vim.fn.getcwd()
+  local project = vim.fs.basename(vim.fs.root(cwd, ".git") or cwd)
   if cmd and cmd ~= "" then
     vim.cmd.terminal(cmd)
   else
@@ -20,6 +22,7 @@ local function open_workspace_terminal(cmd)
   end
 
   vim.b.workspace_terminal = true
+  vim.b.workspace_terminal_name = (label or "Shell") .. " · " .. project
 
   -- Preserve the running terminal job when its window is reused for a file.
   vim.bo.buflisted = true
@@ -38,11 +41,15 @@ vim.keymap.set("n", "<leader>wt", function()
   open_workspace_terminal()
 end, { desc = "Terminal" })
 vim.keymap.set("n", "<leader>wa", function()
-  open_workspace_terminal("codex --no-alt-screen")
+  open_workspace_terminal("codex --no-alt-screen", "Codex")
 end, { desc = "Terminal with codex" })
 vim.keymap.set("n", "<leader>wc", function()
-  open_workspace_terminal("claude")
+  open_workspace_terminal("claude", "Claude")
 end, { desc = "Terminal with claude" })
 vim.keymap.set("n", "<leader>wz", function()
-  open_workspace_terminal("opencode")
+  open_workspace_terminal("opencode", "OpenCode")
 end, { desc = "Terminal with opencode" })
+
+vim.keymap.set("n", "<leader>wr", function()
+  require("terminal_picker").rename()
+end, { desc = "Rename Terminal" })

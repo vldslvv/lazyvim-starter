@@ -56,6 +56,8 @@ code references.
 | `jk` | Leave insert or terminal mode |
 | `Alt-Enter` | Insert a newline without inherited indentation |
 | `<leader>wt` | Shell in the current window |
+| `<leader>we` | Find existing terminals (including hidden terminals) |
+| `<leader>wr` | Rename the current terminal |
 | `<leader>wa` / `wc` / `wz` | Codex / Claude / opencode terminal |
 | `<leader>er` / `ec` | Toggle Neo-tree at project root / current directory |
 | `<leader>eg` / `eb` / `ee` | Git tree / buffer tree / focus tree |
@@ -76,3 +78,17 @@ Telescope's file, buffer, or grep pickers and Neo-tree's window picker. Their jo
 continue in hidden, listed buffers. Other Telescope pickers keep their native
 selection actions. Neogit status panes are restored alongside Persistence
 sessions.
+
+To switch terminals, leave terminal mode with `jk`, then press Space → w → e.
+The Telescope picker searches terminal titles and buffer names,
+with a preview of recent output. Enter opens the selected terminal in the current
+window; press `i` to type into it. Escape cancels the picker. Hidden terminal jobs
+keep running, and no new shell is created when selecting an existing terminal.
+
+New workspace terminals get labels such as `Shell · project-name` or
+`Codex · project-name`, using the Git root name of the terminal's starting
+directory (or the directory name outside Git). To rename any terminal, press
+`jk`, then Space → w → r and enter a label such as `backend server` or `tests`.
+Canceling or submitting an empty name keeps the current label. Labels appear in
+the picker alongside buffer numbers, remain stable when shell titles change,
+and last for the terminal buffer's lifetime.

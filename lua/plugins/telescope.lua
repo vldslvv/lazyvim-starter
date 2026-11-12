@@ -109,6 +109,13 @@ return {
     end,
     keys = {
       {
+        "<leader>we",
+        function()
+          require("terminal_picker").open()
+        end,
+        desc = "Find Terminals",
+      },
+      {
         "<leader>fA",
         LazyVim.pick("find_files", { hidden = true, no_ignore = true }),
         desc = "Find Files (Hidden and Ignored)",
