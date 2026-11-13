@@ -1,5 +1,9 @@
 return {
-  { "folke/noice.nvim", enabled = false },
+  {
+    "folke/noice.nvim",
+    -- Keep the command-line popup while native hover handles documentation.
+    opts = { lsp = { hover = { enabled = false } } },
+  },
   { "stevearc/dressing.nvim", enabled = false },
   {
     "nvim-telescope/telescope.nvim",

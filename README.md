@@ -63,8 +63,8 @@ in `lua/config/options.lua` to enable it. It uses the existing idle delay and
 shows documentation without taking focus, only in normal editing buffers with
 a hover-capable LSP client. Special buffers and floating windows are skipped;
 shell, JSON, and TOML files are supported. Native Neovim hover handles both
-automatic previews and manual `K`/`KK`. Noice is disabled; Neovim handles the
-command line and messages, and Snacks handles notifications.
+automatic previews and manual `K`/`KK`. Noice provides the command-line popup
+and message UI, with its LSP hover override disabled. Snacks handles notifications.
 
 Snacks handles text input prompts, and Telescope handles selection dialogs via
 `telescope-ui-select.nvim`. Browser Markdown previews use `live-preview.nvim`;
