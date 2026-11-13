@@ -14,7 +14,7 @@ return {
 
         -- Keep inactive names readable, including buffers visible in other splits.
         for _, name in ipairs({ "background", "buffer", "buffer_visible", "duplicate", "duplicate_visible" }) do
-          highlights[name].fg = palette.text
+          highlights[name].fg = palette.subtext1
         end
 
         -- Every part of the active buffer needs the same background, including
