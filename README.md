@@ -54,9 +54,7 @@ case-sensitive whole words throughout the buffer, including comments and strings
 It excludes the occurrence under the cursor and skips special buffers and floating
 windows. The delay is about 200 ms in normal mode and 300 ms in insert mode.
 Its native range handling and refresh lifecycle apply; highlighting is disabled
-above 10,000 lines. A pinned dependency patch fixes LSP position conversion for
-UTF-8 and UTF-32 servers; rebuild the plugin with `:Lazy build vim-illuminate`
-if reinstalling it manually.
+above 10,000 lines.
 
 Automatic LSP hover is disabled by default. Set `vim.g.autohover_enabled = true`
 in `lua/config/options.lua` to enable it. It uses the existing idle delay and

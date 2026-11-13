@@ -4,20 +4,6 @@ return {
     "RRethy/vim-illuminate",
     commit = "1cc33d347c574c3bd21a4852fc9ffed677c1c58c",
     event = "VeryLazy",
-    build = function(plugin)
-      local patch = vim.fn.stdpath("config") .. "/patches/vim-illuminate-lsp-encoding.patch"
-      local function apply(...)
-        local cmd = { "git", "-C", plugin.dir, "apply" }
-        vim.list_extend(cmd, { ... })
-        cmd[#cmd + 1] = patch
-        return vim.system(cmd, { text = true }):wait()
-      end
-      if apply("--reverse", "--check").code == 0 then
-        return
-      end
-      local result = apply()
-      assert(result.code == 0, "Illuminate encoding patch failed: " .. result.stderr)
-    end,
     opts = {
       providers = { "lsp", "regex" },
       delay = 200,
