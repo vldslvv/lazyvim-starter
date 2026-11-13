@@ -34,6 +34,20 @@ return {
           },
         },
       })
+
+      vim.api.nvim_create_autocmd("FileType", {
+        group = vim.api.nvim_create_augroup("NeogitJumpHints", { clear = true }),
+        pattern = "NeogitStatus",
+        callback = function(event)
+          require("which-key").add({
+            buffer = event.buf,
+            { "<leader>j", group = "jump", icon = "󰁔" },
+            { "<leader>ju", desc = "Jump to Unstaged Changes", icon = "" },
+            { "<leader>js", desc = "Jump to Staged Changes", icon = "" },
+            { "<leader>jt", desc = "Jump to Untracked Files", icon = "" },
+          })
+        end,
+      })
     end,
     cmd = "Neogit",
     keys = {
