@@ -72,8 +72,8 @@ return {
       return opts
     end,
     keys = {
-      M.disable_keymap("<leader>fe", "Disable Explorer NeoTree (Root Dir)"),
-      M.disable_keymap("<leader>e", "Disable Explorer NeoTree (Root Dir)"),
+      M.disable_lazy_keymap("<leader>fe", "Disable Explorer NeoTree (Root Dir)"),
+      M.disable_lazy_keymap("<leader>e", "Disable Explorer NeoTree (Root Dir)"),
       {
         "<leader>er",
         function()
@@ -82,8 +82,8 @@ return {
         desc = "Explorer NeoTree (Root Dir)",
       },
 
-      M.disable_keymap("<leader>fE", "Disable Explorer NeoTree (cwd)"),
-      M.disable_keymap("<leader>E", "Disable Explorer NeoTree (cwd)"),
+      M.disable_lazy_keymap("<leader>fE", "Disable Explorer NeoTree (cwd)"),
+      M.disable_lazy_keymap("<leader>E", "Disable Explorer NeoTree (cwd)"),
       {
         "<leader>ec",
         function()
@@ -92,7 +92,7 @@ return {
         desc = "Explorer NeoTree (cwd)",
       },
 
-      M.disable_keymap("<leader>ge", "Disable Git Explorer"),
+      M.disable_lazy_keymap("<leader>ge", "Disable Git Explorer"),
       {
         "<leader>eg",
         function()
@@ -101,7 +101,7 @@ return {
         desc = "Explorer For Git",
       },
 
-      M.disable_keymap("<leader>be", "Disable Buffer Explorer"),
+      M.disable_lazy_keymap("<leader>be", "Disable Buffer Explorer"),
       {
         "<leader>eb",
         function()

@@ -1,18 +1,13 @@
 local M = {}
 
-function M.disable_keymap(keymap, desc, mode)
-  local keymap_config = {
+-- Return a lazy.nvim keys-spec override; an omitted mode defaults to normal mode.
+function M.disable_lazy_keymap(keymap, desc, mode)
+  return {
     keymap,
     false,
     desc = desc,
+    mode = mode,
   }
-
-  -- Add mode parameter if provided
-  if mode then
-    keymap_config.mode = mode
-  end
-
-  return keymap_config
 end
 
 return M
