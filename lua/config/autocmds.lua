@@ -1,25 +1,5 @@
--- Autocmds are automatically loaded on the VeryLazy event
--- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
---
--- Add any additional autocmds here
--- with `vim.api.nvim_create_autocmd`
---
--- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
--- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
---
-
--- Disable autoformatting for certain filetypes
--- TODO: think if for some files we can enable autoformatting in a similar way
--- vim.api.nvim_create_autocmd({ "FileType" }, {
---   pattern = { "lua", "py", "sh", "json", "yaml", "yml" },
---   callback = function()
---     vim.b.autoformat = false
---   end,
--- })
-
-if not vim.g.autohover_disabled then
-  require("config.autocmds.hover").setup()
-end
+-- Loaded by LazyVim alongside its default autocmds.
+require("config.autocmds.hover").setup()
 require("config.autocmds.neogit").setup()
 
 -- Keep terminal jobs available when a file replaces their window.
@@ -31,20 +11,23 @@ vim.api.nvim_create_autocmd("TermOpen", {
   end,
 })
 
--- Use 4 spaces for certain file types
-vim.api.nvim_create_autocmd({ "FileType" }, {
-  pattern = { "cpp", "c", "h", "hpp", "python" },
-  callback = function()
-    vim.bo.shiftwidth = 4
-    vim.bo.tabstop = 4
-    vim.bo.expandtab = true
+-- Use four spaces for C/C++ (including headers) and Python.
+local filetypes = vim.api.nvim_create_augroup("workspace_filetypes", { clear = true })
+vim.api.nvim_create_autocmd("FileType", {
+  group = filetypes,
+  pattern = { "cpp", "c", "python" },
+  callback = function(event)
+    vim.bo[event.buf].shiftwidth = 4
+    vim.bo[event.buf].tabstop = 4
+    vim.bo[event.buf].expandtab = true
   end,
 })
 
--- enable autoformatting for lua files
-vim.api.nvim_create_autocmd({ "FileType" }, {
-  pattern = { "lua" },
-  callback = function()
-    vim.b.autoformat = true
+-- Enable formatting on save for Lua despite the global default.
+vim.api.nvim_create_autocmd("FileType", {
+  group = filetypes,
+  pattern = "lua",
+  callback = function(event)
+    vim.b[event.buf].autoformat = true
   end,
 })

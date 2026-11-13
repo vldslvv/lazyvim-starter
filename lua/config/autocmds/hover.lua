@@ -1,84 +1,46 @@
 local M = {}
 
-vim.api.nvim_create_augroup("LspHover", { clear = true })
-
--- When hover is called twice on the same object, the floating window gains focus.
--- To avoid this, we keep track of whether hover has been called before.
-M.hover_called = true
-local excluded_filetypes = { "sh", "json", "toml" }
-
--- Function to check if the file type is excluded
-local function is_excluded_filetype()
-  local filetype = vim.bo.filetype
-  for _, ft in ipairs(excluded_filetypes) do
-    if filetype == ft then
-      return true
-    end
-  end
-  return false
-end
-
--- Function to check if LSP clients are available
-local function on_buffer_enter()
-  if is_excluded_filetype() then
-    return
-  end
-
-  local clients = vim.lsp.get_clients()
-  vim.b.lsp_available = next(clients) ~= nil
-
-  -- Reset hover state
-  M.hover_called = true
-end
-
 function M.setup()
-  -- Autocommand for LspAttach
-  vim.api.nvim_create_autocmd("LspAttach", {
-    group = "LspHover",
-    pattern = "*",
-    callback = on_buffer_enter,
-  })
+  local group = vim.api.nvim_create_augroup("LspHover", { clear = true })
+  local last_context
 
-  -- Autocommand for BufEnter
-  vim.api.nvim_create_autocmd("BufEnter", {
-    group = "LspHover",
-    pattern = "*",
-    callback = on_buffer_enter,
-  })
-
-  -- Use the buffer-local variable in the CursorHold autocmd
-  vim.api.nvim_create_autocmd("CursorHold", {
-    group = "LspHover",
-    pattern = "*",
+  vim.api.nvim_create_autocmd({ "CursorMoved", "BufEnter", "WinEnter", "InsertEnter", "TextChanged" }, {
+    group = group,
+    desc = "Rearm automatic hover when the editing context changes",
     callback = function()
-      if vim.g.autohover_disabled or is_excluded_filetype() then
-        return
-      end
-      if not vim.b.lsp_available then
-        return
-      end
-      if M.hover_called then
-        return
-      end
-
-      local params = vim.lsp.util.make_position_params()
-      vim.lsp.buf_request(0, "textDocument/hover", params, function(err, result, ctx, config)
-        if result and result.contents then
-          vim.lsp.buf.hover()
-          M.hover_called = true
-        end
-      end)
+      last_context = nil
     end,
   })
 
-  vim.api.nvim_create_autocmd("CursorMoved", {
-    group = "LspHover",
-    pattern = "*",
-    callback = function()
-      if is_excluded_filetype() then
+  vim.api.nvim_create_autocmd("CursorHold", {
+    group = group,
+    desc = "Show optional LSP hover without taking focus",
+    callback = function(event)
+      if vim.g.autohover_disabled then
+        last_context = nil
         return
       end
-      M.hover_called = false
+      local win = vim.api.nvim_get_current_win()
+      if
+        vim.api.nvim_get_current_buf() ~= event.buf
+        or vim.bo[event.buf].buftype ~= ""
+        or vim.api.nvim_win_get_config(win).relative ~= ""
+        or vim.api.nvim_get_mode().mode ~= "n"
+      then
+        return
+      end
+      if #vim.lsp.get_clients({ bufnr = event.buf, method = "textDocument/hover" }) == 0 then
+        return
+      end
+
+      local cursor = vim.api.nvim_win_get_cursor(win)
+      local context = { event.buf, win, cursor[1], cursor[2], vim.api.nvim_buf_get_changedtick(event.buf) }
+      if vim.deep_equal(last_context, context) then
+        return
+      end
+      last_context = context
+      -- Native hover handles client encodings and discards stale responses.
+      vim.lsp.buf.hover({ focus = false, silent = true })
     end,
   })
 end

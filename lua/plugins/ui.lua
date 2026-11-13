@@ -1,4 +1,9 @@
 return {
+  {
+    "folke/noice.nvim",
+    -- Native hover supports silent, non-focusing automatic previews.
+    opts = { lsp = { hover = { enabled = false } } },
+  },
   { "stevearc/dressing.nvim", enabled = false },
   {
     "nvim-telescope/telescope.nvim",

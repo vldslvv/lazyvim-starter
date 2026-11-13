@@ -1,3 +1,9 @@
+local function jump_to_section(heading)
+  return function()
+    vim.fn.search("^" .. heading, "cw")
+  end
+end
+
 return {
   {
     "NeogitOrg/neogit",
@@ -14,16 +20,19 @@ return {
         opts = {},
       },
 
-      -- Only one of these is needed.
-      "nvim-telescope/telescope.nvim", -- optional
-      -- "ibhagwan/fzf-lua", -- optional
-      -- "nvim-mini/mini.pick", -- optional
-      -- "folke/snacks.nvim", -- optional
+      "nvim-telescope/telescope.nvim",
     },
     config = function()
       require("neogit").setup({
         disable_signs = false,
         integrations = { diffview = true },
+        mappings = {
+          status = {
+            ["<leader>ju"] = jump_to_section("Unstaged changes"),
+            ["<leader>js"] = jump_to_section("Staged changes"),
+            ["<leader>jt"] = jump_to_section("Untracked files"),
+          },
+        },
       })
     end,
     cmd = "Neogit",
