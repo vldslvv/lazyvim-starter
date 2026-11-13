@@ -52,12 +52,13 @@ set it to false before loading for manual completion. Textual word highlighting
 is limited to Markdown, plain text, and commit messages. Snacks/LSP highlights
 code references.
 
-Automatic LSP hover is disabled by default. Set `vim.g.autohover_disabled = false`
+Automatic LSP hover is disabled by default. Set `vim.g.autohover_enabled = true`
 in `lua/config/options.lua` to enable it. It uses the existing idle delay and
 shows documentation without taking focus, only in normal editing buffers with
 a hover-capable LSP client. Special buffers and floating windows are skipped;
 shell, JSON, and TOML files are supported. Native Neovim hover handles both
-automatic previews and manual `K`/`KK`; Noice continues handling other UI.
+automatic previews and manual `K`/`KK`. Noice is disabled; Neovim handles the
+command line and messages, and Snacks handles notifications.
 
 Snacks handles text input prompts, and Telescope handles selection dialogs via
 `telescope-ui-select.nvim`. Browser Markdown previews use `live-preview.nvim`;

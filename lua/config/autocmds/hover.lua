@@ -16,7 +16,7 @@ function M.setup()
     group = group,
     desc = "Show optional LSP hover without taking focus",
     callback = function(event)
-      if vim.g.autohover_disabled then
+      if not vim.g.autohover_enabled then
         last_context = nil
         return
       end
