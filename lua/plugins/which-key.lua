@@ -1,0 +1,82 @@
+return {
+  {
+    "folke/which-key.nvim",
+    opts = {
+      spec = {
+        {
+          mode = { "n", "x" },
+          { "<leader>e", group = "explorer", icon = "󰙅" },
+          { "<leader>t", group = "test", icon = "󰙨" },
+          { "<leader>sn", group = "messages", icon = "󰈸" },
+          { "g", group = "goto", icon = "󰁔" },
+          { "[", group = "prev", icon = "" },
+          { "]", group = "next", icon = "" },
+          { "z", group = "fold", icon = "" },
+        },
+        { "gp", group = "preview", icon = "" },
+        { "gP", real = true, icon = "󰖭" },
+        { "<leader>gn", real = true, icon = "󰊢" },
+        { "<leader>we", real = true, icon = "" },
+        { "<leader>bf", real = true, icon = "󰈔" },
+        { "<leader>fA", real = true, icon = "󰈔" },
+        { "<leader>sA", real = true, icon = "" },
+        {
+          real = true,
+          icon = "",
+          { "<leader>dc" },
+          { "<F5>" },
+        },
+        {
+          real = true,
+          icon = "",
+          { "<leader>dt" },
+          { "<S-F5>" },
+        },
+        {
+          real = true,
+          icon = "",
+          { "<leader>dl" },
+          { "<C-F5>" },
+        },
+        {
+          real = true,
+          icon = "",
+          { "<leader>do" },
+          { "<F10>" },
+        },
+        {
+          real = true,
+          icon = "",
+          { "<leader>di" },
+          { "<F11>" },
+        },
+        {
+          real = true,
+          icon = "",
+          { "<leader>dO" },
+          { "<S-F11>" },
+        },
+        {
+          real = true,
+          icon = "",
+          { "<leader>dP" },
+          { "<F6>" },
+        },
+        {
+          real = true,
+          icon = "",
+          { "<leader>db" },
+          { "<F9>" },
+        },
+        {
+          real = true,
+          icon = "",
+          { "<leader>dB" },
+          { "<S-F9>" },
+        },
+        { "<a-s>", mode = { "n", "x", "o" }, real = true, icon = "⚡" },
+        { "<C-Space>", mode = { "n", "x", "o" }, real = true, icon = "" },
+      },
+    },
+  },
+}

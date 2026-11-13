@@ -43,7 +43,7 @@ return {
             buffer = event.buf,
             { "<leader>j", group = "jump", icon = "󰁔" },
             { "<leader>ju", desc = "Jump to Unstaged Changes", icon = "" },
-            { "<leader>js", desc = "Jump to Staged Changes", icon = "" },
+            { "<leader>js", desc = "Jump to Staged Changes", icon = "" },
             { "<leader>jt", desc = "Jump to Untracked Files", icon = "" },
           })
         end,

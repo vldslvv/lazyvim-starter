@@ -73,8 +73,7 @@ return {
     end,
     keys = {
       M.disable_keymap("<leader>fe", "Disable Explorer NeoTree (Root Dir)"),
-      -- M.disable_keymap("<leader>e", "Disable Explorer NeoTree (Root Dir)"),
-      { "<leader>e", "", desc = "+explorer", mode = { "n", "v" } },
+      M.disable_keymap("<leader>e", "Disable Explorer NeoTree (Root Dir)"),
       {
         "<leader>er",
         function()
