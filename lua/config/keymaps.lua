@@ -9,9 +9,7 @@ vim.keymap.set("t", "jk", "<C-\\><C-n>", { noremap = true, silent = true })
 -- Ignore indentation by pressing Alt+Enter
 vim.keymap.set("i", "<a-cr>", "<cr><C-u>")
 
--- Goal: treat only terminals opened by these keymaps as workspace panes.
--- The marker lets integrations replace assistant terminal windows with files,
--- while ordinary :terminal buffers keep the usual protected terminal behavior.
+-- Open and label terminals in the current editing window.
 local function open_workspace_terminal(cmd, label)
   local cwd = vim.fn.getcwd()
   local project = vim.fs.basename(vim.fs.root(cwd, ".git") or cwd)
@@ -21,17 +19,7 @@ local function open_workspace_terminal(cmd, label)
     vim.cmd.terminal()
   end
 
-  vim.b.workspace_terminal = true
   vim.b.workspace_terminal_name = (label or "Shell") .. " · " .. project
-
-  -- Preserve the running terminal job when its window is reused for a file.
-  vim.bo.buflisted = true
-  vim.bo.bufhidden = "hide"
-
-  -- Allow Neovim 0.10+ windows to swap away from the terminal buffer.
-  pcall(function()
-    vim.wo.winfixbuf = false
-  end)
 
   vim.cmd.startinsert()
 end

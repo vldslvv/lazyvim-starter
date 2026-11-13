@@ -5,6 +5,10 @@ return {
     "nvim-neo-tree/neo-tree.nvim",
     opts = function(_, opts)
       opts = opts or {}
+      -- Terminals are editing targets too; retain exclusions for utility panes.
+      opts.open_files_do_not_replace_types = vim.tbl_filter(function(kind)
+        return kind ~= "terminal"
+      end, opts.open_files_do_not_replace_types or require("neo-tree.defaults").open_files_do_not_replace_types)
       opts.filesystem = opts.filesystem or {}
       -- Refresh when files or directories change outside Neovim.
       opts.filesystem.use_libuv_file_watcher = true

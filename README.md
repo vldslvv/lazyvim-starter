@@ -96,10 +96,11 @@ plugins in each project's `.tflint.hcl` and run `tflint --init` in that project.
 | `F9` / `Shift-F9` / `F6` | Breakpoint / conditional breakpoint / pause |
 | `<leader>du` / `dU` / `dv` | Toggle DAP UI / reset layout / toggle variable text |
 
-Terminals opened by the workspace shortcuts can be replaced with a file through
-Telescope's file, buffer, or grep pickers and Neo-tree's window picker. Their jobs
-continue in hidden, listed buffers. Other Telescope pickers keep their native
-selection actions. Neogit status panes are restored alongside Persistence
+All terminal buffers, including those opened with `:terminal`, can be replaced
+with a file in the same window through Telescope and Neo-tree's normal open or
+window picker actions. Their jobs continue in hidden, listed buffers, available
+through `<leader>we`. Telescope keeps its native selection actions, including
+explicit split commands. Neogit status panes are restored alongside Persistence
 sessions.
 
 To switch terminals, leave terminal mode with `jk`, then press Space → w → e.

@@ -22,6 +22,15 @@ if not vim.g.autohover_disabled then
 end
 require("config.autocmds.neogit").setup()
 
+-- Keep terminal jobs available when a file replaces their window.
+vim.api.nvim_create_autocmd("TermOpen", {
+  group = vim.api.nvim_create_augroup("workspace_terminals", { clear = true }),
+  callback = function(event)
+    vim.bo[event.buf].buflisted = true
+    vim.bo[event.buf].bufhidden = "hide"
+  end,
+})
+
 -- Use 4 spaces for certain file types
 vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = { "cpp", "c", "h", "hpp", "python" },
