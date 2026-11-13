@@ -12,6 +12,11 @@ return {
         local theme = type(inherited) == "function" and inherited(defaults) or inherited or {}
         local highlights = vim.tbl_deep_extend("force", {}, defaults.highlights, theme)
 
+        -- Keep inactive names readable, including buffers visible in other splits.
+        for _, name in ipairs({ "background", "buffer", "buffer_visible", "duplicate", "duplicate_visible" }) do
+          highlights[name].fg = palette.text
+        end
+
         -- Every part of the active buffer needs the same background, including
         -- diagnostic filename overrides. Tab-page highlights are independent.
         for name, highlight in pairs(highlights) do
