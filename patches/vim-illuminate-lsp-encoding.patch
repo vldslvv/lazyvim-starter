@@ -1,0 +1,18 @@
+--- a/lua/illuminate/providers/lsp.lua
++++ b/lua/illuminate/providers/lsp.lua
+@@ -112,13 +112,13 @@
+                             bufnr,
+                             res['range']['start']['line'],
+                             res['range']['start']['character'],
+-                            res['offset_encoding']
++                            client.offset_encoding
+                         )
+                         local end_col = get_line_byte_from_position(
+                             bufnr,
+                             res['range']['end']['line'],
+                             res['range']['end']['character'],
+-                            res['offset_encoding']
++                            client.offset_encoding
+                         )
+                         table.insert(references, {
+                             { res['range']['start']['line'], start_col },

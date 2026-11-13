@@ -48,9 +48,15 @@ IndentWidth: 4
 
 Blink is disabled in Markdown and plain text. Enter inserts a newline; Ctrl-Y
 accepts completion. `vim.g.blink_enable_auto_completion` is read when Blink loads;
-set it to false before loading for manual completion. Textual word highlighting
-is limited to Markdown, plain text, and commit messages. Snacks/LSP highlights
-code references.
+set it to false before loading for manual completion. `vim-illuminate` highlights
+LSP symbol references when a supporting server is attached; otherwise it matches
+case-sensitive whole words throughout the buffer, including comments and strings.
+It excludes the occurrence under the cursor and skips special buffers and floating
+windows. The delay is about 200 ms in normal mode and 300 ms in insert mode.
+Its native range handling and refresh lifecycle apply; highlighting is disabled
+above 10,000 lines. A pinned dependency patch fixes LSP position conversion for
+UTF-8 and UTF-32 servers; rebuild the plugin with `:Lazy build vim-illuminate`
+if reinstalling it manually.
 
 Automatic LSP hover is disabled by default. Set `vim.g.autohover_enabled = true`
 in `lua/config/options.lua` to enable it. It uses the existing idle delay and
@@ -85,6 +91,7 @@ plugins in each project's `.tflint.hcl` and run `tflint --init` in that project.
 | --- | --- |
 | `jk` | Leave insert or terminal mode |
 | `Alt-Enter` | Insert a newline without inherited indentation |
+| `Alt-N` / `Alt-P` | Illuminate next / previous reference, if unbound; wrapping follows `wrapscan` |
 | `<leader>wt` | Shell in the current window |
 | `<leader>we` | Find existing terminals (including hidden terminals) |
 | `<leader>wr` | Rename the current terminal |
