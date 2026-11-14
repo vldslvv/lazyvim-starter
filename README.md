@@ -113,8 +113,15 @@ All terminal buffers, including those opened with `:terminal`, can be replaced
 with a file in the same window through Telescope and Neo-tree's normal open or
 window picker actions. Their jobs continue in hidden, listed buffers, available
 through `<leader>we`. Telescope keeps its native selection actions, including
-explicit split commands. Neogit status panes are restored alongside Persistence
-sessions.
+explicit split commands. Persistence sessions preserve tab order, the selected
+tab and pane, Neogit status views (including splits and shared views), and each
+tab's Neo-tree visibility, source, root, and position. Pane metadata is stored
+inside the session file, so quitting an unused editor keeps the previous session
+intact. Existing sessions gain the full pane metadata when saved again.
+
+Run `python3 tests/session_restore.py` to check save/restore behavior across
+isolated Neovim processes using your installed plugins. Use `--plugins PATH` if
+they are outside the default Neovim data directory.
 
 To switch terminals, leave terminal mode with `jk`, then press Space → w → e.
 The Telescope picker searches terminal titles and buffer names,
