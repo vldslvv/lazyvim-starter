@@ -20,9 +20,19 @@ return {
         hide = {
           cursorline = "smart",
           focused_win = false,
-          only_win = "count_ignored",
+          only_win = false,
+        },
+        -- Keep tracking windows when a file replaces a dashboard or utility buffer.
+        -- Incline only rechecks ignored windows when the window layout changes.
+        ignore = {
+          buftypes = {},
+          unlisted_buffers = false,
         },
         render = function(props)
+          if not vim.bo[props.buf].buflisted or vim.bo[props.buf].buftype ~= "" then
+            return nil
+          end
+
           local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":.")
           if filename == "" then
             filename = "[No Name]"
